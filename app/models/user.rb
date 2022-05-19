@@ -9,4 +9,9 @@ class User < ApplicationRecord
             length: { minimum: 3 },
             if: -> { new_record? || !password.nil? }
   validates :password_confirmation, presence: true
+
+  has_many :books
+
+  belongs_to :donation, foreign_key: :receiver_id
+  belongs_to :city
 end
