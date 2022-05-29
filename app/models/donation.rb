@@ -1,4 +1,4 @@
 class Donation < ApplicationRecord
-  has_one :book
-  has_one :receiver, class_name: 'User', foreign_key: :receiver_id
+  belongs_to :book, optional: true
+  belongs_to :receiver, class_name: 'User', foreign_key: :receiver_id, optional: true
 end

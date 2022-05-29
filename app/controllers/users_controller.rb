@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_request, only: [:create]
-  before_action :set_user, only: [:show, :destroy]
+  before_action :set_user, only: [:update, :show, :destroy, :increase_credit]
 
   # GET /users
   def index
@@ -26,7 +26,9 @@ class UsersController < ApplicationController
 
   # PUT /users/:id
   def update
-    unless @user.update(user_params)
+    if @user.update(user_params)
+      render json: @user, status: :ok
+    else
       render json: { errors: @user.errors.full_messages },
              status: :unprocessable_entity
     end
@@ -35,6 +37,42 @@ class UsersController < ApplicationController
   # DELETE /users/:id
   def destroy
     @user.destroy
+  end
+
+  def increase_credit
+    unless @user.update(credit: params[:credit])
+      render json: { errors: @user.errors.full_messages },
+             status: :unprocessable_entity
+    end 
+  end
+
+  def give_note
+    note = params[:note]
+    donation_id = params[:donation_id]
+    rate_user_id = params[:rate_user_id]
+    donor_id = params[:donor]
+
+    if donor_id
+      Donation.find(donation_id).update(donor_evaluation: true, donor_note: note)  
+    else
+      Donation.find(donation_id).update(receiver_evaluation: true, receiver_note: note)  
+    end
+
+    user = User.find(rate_user_id).select('sum_notes, count_note')
+
+    new_count_note = user.count_note + 1
+
+    new_sum_notes = (user.sum_notes + note);
+    new_points = new_sum_notes / new_count_note
+
+    user.update(points: new_points.to_f, sum_notes: new_sum_notes, count_note: new_count_note)
+    
+    if user.changed?
+      render json: user, status: :ok
+    else
+      render json: { errors: @user.errors.full_messages },
+              status: :unprocessable_entity
+    end
   end
 
   private
@@ -46,6 +84,9 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.permit(:name, :username, :email, :password, :password_confirmation)
+    params_list = [:id, :name, :username, :email, :city_id, :state_id, :credits, 
+                   :points, :phone, :count_note, :sum_notes]
+    params_list += [:password, :password_confirmation] unless params[:password].blank?
+    params.permit(params_list)
   end
 end

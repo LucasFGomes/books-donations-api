@@ -4,7 +4,27 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  resources :users
+  resources :users, only: [:index, :show, :create, :update, :destroy] do
+    collection do
+      get 'increase_credit' => 'users#increase_credit'
+      get 'give_note' => 'users#give_note'
+    end
+
+    resources :donations, only: [:index, :show, :create, :update, :destroy] do
+      collection do
+        get 'donation_infos' => 'donations#donation_infos'
+        put 'complete_donation' => 'donations#complete_donation'
+        delete 'cancel_donation' => 'donations#cancel_donation'
+      end
+    end
+
+    resources :books, only: [:index, :show, :create, :update, :destroy] do
+      collection do
+        get 'register_interest' => 'books#register_interest'
+        get 'register_donation' => 'books#register_donation'
+      end
+    end
+  end
   post '/auth/login', to: 'authentication#login'
   get '/*a', to: 'application#not_found'
 end
