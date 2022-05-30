@@ -17,7 +17,7 @@ class CitiesController < ApplicationController
   private
 
   def set_city
-    @city = City.find(params[:id])
+    @city = City.find_by(params[:state_id])
     rescue ActiveRecord::RecordNotFound
       render json: { errors: 'City not found' }, status: :not_found
   end

@@ -25,6 +25,8 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :cities, only: [:index, :show, :destroy]
+  resources :states, only: [:index, :show, :destroy]
   post '/auth/login', to: 'authentication#login'
   get '/*a', to: 'application#not_found'
 end
