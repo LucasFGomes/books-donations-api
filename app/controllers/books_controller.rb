@@ -83,7 +83,7 @@ class BooksController < ApplicationController
     end
 
     def book_params
-      params_list = [:id, :title, :author, :resume, :year, :credit, :user_id]
+      params_list = [:id, :title, :author, :resume, :year, :credit, :user_id, :url]
       params.permit(params_list)
     end
 end
