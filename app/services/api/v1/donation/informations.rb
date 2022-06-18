@@ -66,7 +66,8 @@ class Api::V1::Donation::Informations
           "users.name AS name_donor",
           "receivers.name AS name_receiver",
           "donations.created_at",
-          "donations.updated_at"
+          "donations.updated_at",
+          "receivers.phone AS receiver_phone"
         )
   end
 
@@ -92,7 +93,8 @@ class Api::V1::Donation::Informations
           "users.name AS name_donor",
           "receivers.name AS name_receiver",
           "donations.created_at",
-          "donations.updated_at"
+          "donations.updated_at",
+          "users.phone AS donor_phone"
         )
   end
 end
