@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       collection do
         get 'donation_infos' => 'donations#donation_infos'
         put 'complete_donation' => 'donations#complete_donation'
-        delete 'cancel_donation' => 'donations#cancel_donation'
+        put 'cancel_donation' => 'donations#cancel_donation'
       end
     end
 
