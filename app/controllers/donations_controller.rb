@@ -41,8 +41,8 @@ class DonationsController < ApplicationController
       donor_found = User.find user_id 
       receiver_found = User.find receiver_id
 
-      donor_found.update(credits: donor_found + credit)
-      receiver_found.update(credits: receiver_found - credit)
+      donor_found.update(credits: donor_found.credits + credit.to_d)
+      receiver_found.update(credits: receiver_found.credits - credit.to_d)
     end
   end
 
