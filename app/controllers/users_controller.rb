@@ -58,16 +58,16 @@ class UsersController < ApplicationController
       Donation.find(donation_id).update(receiver_evaluation: true, receiver_note: note)  
     end
 
-    user = User.where(id: rate_user_id).select('sum_notes, count_note').first
+    user = User.where(id: rate_user_id).select('id, sum_notes, count_note').first
 
     new_count_note = user.count_note + 1
 
-    new_sum_notes = (user.sum_notes + note);
+    new_sum_notes = (user.sum_notes + note)
     new_points = new_sum_notes / new_count_note
 
-    user.update(points: new_points.to_f, sum_notes: new_sum_notes, count_note: new_count_note)
-    
-    if user.changed?
+    user.update_columns(points: new_points.to_f, sum_notes: new_sum_notes, count_note: new_count_note)
+
+    if user
       render json: user, status: :ok
     else
       render json: { errors: @user.errors.full_messages },
