@@ -16,6 +16,8 @@ class Api::V1::Donation::Index
 
   def get_donations
     Donation.joins(:book, :receiver).where.not(status: "canceled")
+                                    .select('donations.*, 
+                                             books.user_id as donor_id')
   end
 
   def total_donations_completed

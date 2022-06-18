@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_30_035414) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_18_061036) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,8 +21,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_30_035414) do
     t.integer "year"
     t.decimal "credit"
     t.bigint "user_id", null: false
-    t.boolean "has_interest"
-    t.boolean "donated"
+    t.boolean "has_interest", default: false
+    t.boolean "donated", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_books_on_user_id"
@@ -40,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_30_035414) do
 
   create_table "donations", force: :cascade do |t|
     t.string "address"
-    t.string "status"
+    t.string "status", default: "processing"
     t.date "date_delivery"
     t.bigint "book_id", null: false
     t.integer "receiver_id"

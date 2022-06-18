@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
-  before_action :set_donor, only: [:index, :create]
-  before_action :set_book, only: [:show, :destroy, :register_interest, :register_donation]
+  before_action :set_donor, only: [:index]
+  before_action :set_book, only: [:show, :destroy, :update, :register_donation]
 
   def index
     books = Book.joins(:pictures, donor: [city: :state])
@@ -30,15 +30,9 @@ class BooksController < ApplicationController
 
   def create
     @book = Book.new(book_params)
-    urls = params[:url]
-    
-    if urls && urls != "" && urls.length > 0
-      urls.each do |value|
-        Picture.create(url: value, book_id: @book.id)
-      end
-    end
 
     if @book.save
+      Picture.create(url: params[:url][0], book_id: @book.id)
       render json: @book, status: :created
     else
       render json: { errors: @book.errors.full_messages },
@@ -50,7 +44,7 @@ class BooksController < ApplicationController
     @book.destroy
   end
 
-  def register_interest
+  def update
     if @book.update(has_interest: !@book.has_interest)
       render json: { message: "Field updated successfully" }, status: :ok
     else

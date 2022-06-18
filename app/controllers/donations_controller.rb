@@ -1,5 +1,5 @@
 class DonationsController < ApplicationController
-  before_action :set_donation, only: [:create, :destroy]
+  before_action :set_donation, only: [:destroy]
 
   def donation_infos
     @service = ::Api::V1::Donation::Informations.call(params[:user_id])
@@ -15,7 +15,7 @@ class DonationsController < ApplicationController
     if !params[:receiver_id]
       render json: { error: 'É necessário ter um recebedor, para realizar a doação.' }, status: :unprocessable_entity
     end
-    @donation = Donation.new(params)
+    @donation = Donation.new(donation_params)
 
     if @donation.save
       render json: @donation, status: :created
@@ -32,13 +32,13 @@ class DonationsController < ApplicationController
   def complete_donation
     donation_id = params[:donation_id]
     receiver_id = params[:receiver_id]
-    donor_id = params[:donor_id]
+    user_id = params[:user_id]
     credit = params[:credit]
 
     donation = Donation.find(donation_id).update(status: 'completed')
     
     if donation.changed?
-      donor_found = User.find donor_id 
+      donor_found = User.find user_id 
       receiver_found = User.find receiver_id
 
       donor_found.update(credits: donor_found + credit)
@@ -73,6 +73,11 @@ class DonationsController < ApplicationController
     @donation = Donation.find(params[:donation_id])
     rescue ActiveRecord::RecordNotFound
       render json: { errors: 'Donation not found' }, status: :not_found
+  end
+
+  def donation_params
+    params_list = [:id, :address, :date_delivery, :book_id, :receiver_id]
+    params.permit(params_list)
   end
 end
 

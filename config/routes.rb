@@ -6,8 +6,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :create, :update, :destroy] do
     collection do
-      get 'increase_credit' => 'users#increase_credit'
-      get 'give_note' => 'users#give_note'
+      put 'increase_credit' => 'users#increase_credit'
+      put 'give_note' => 'users#give_note'
     end
 
     resources :donations, only: [:index, :show, :create, :update, :destroy] do
@@ -20,8 +20,7 @@ Rails.application.routes.draw do
 
     resources :books, only: [:index, :show, :create, :update, :destroy] do
       collection do
-        get 'register_interest' => 'books#register_interest'
-        get 'register_donation' => 'books#register_donation'
+        put 'register_donation' => 'books#register_donation'
       end
     end
   end
