@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_18_061036) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_18_090848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,8 +80,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_18_061036) do
     t.decimal "points", default: "0.0"
     t.string "phone"
     t.bigint "city_id"
-    t.integer "count_note"
-    t.integer "sum_notes"
+    t.integer "count_note", default: 0
+    t.integer "sum_notes", default: 0
     t.index ["city_id"], name: "index_users_on_city_id"
   end
 

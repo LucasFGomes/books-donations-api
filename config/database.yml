@@ -26,7 +26,7 @@ development:
   database: books_donations_api_development
   pool: 10
   checkout_timeout: 15
-  # url: postgres://mjtzeqkwuesodd:e59e0acb5fa55f289cde95870a9b5e8f154f8fb04118a9b557ad24f753e912dc@ec2-54-211-255-161.compute-1.amazonaws.com:5432/d4mji0qge9blme
+  # url: postgres://baskohoxnmvtah:89e917414d6b203366555e782ddd35a2ae4c3fee79e122849d6cf5103299dd3d@ec2-54-157-16-196.compute-1.amazonaws.com:5432/dcc12jvq04hi8t
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
