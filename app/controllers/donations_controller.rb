@@ -37,7 +37,7 @@ class DonationsController < ApplicationController
 
     donation = Donation.find(donation_id).update(status: 'completed')
     
-    if donation.changed?
+    if donation
       donor_found = User.find user_id 
       receiver_found = User.find receiver_id
 

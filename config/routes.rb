@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
     resources :books, only: [:index, :show, :create, :update, :destroy] do
       collection do
+        put 'register_interest' => 'books#register_interest'
         put 'register_donation' => 'books#register_donation'
       end
     end

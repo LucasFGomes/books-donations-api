@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_donor, only: [:index]
-  before_action :set_book, only: [:show, :destroy, :update, :register_donation]
+  before_action :set_book, only: [:show, :destroy, :register_interest, :register_donation]
 
   def index
     books = Book.joins(:pictures, donor: [city: :state])
@@ -40,11 +40,14 @@ class BooksController < ApplicationController
     end
   end
 
+  def update
+  end
+
   def destroy
     @book.destroy
   end
 
-  def update
+  def register_interest
     if @book.update(has_interest: !@book.has_interest)
       render json: { message: "Field updated successfully" }, status: :ok
     else
