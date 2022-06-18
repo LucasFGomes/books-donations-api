@@ -58,7 +58,7 @@ class UsersController < ApplicationController
       Donation.find(donation_id).update(receiver_evaluation: true, receiver_note: note)  
     end
 
-    user = User.find(rate_user_id).select('sum_notes, count_note')
+    user = User.where(id: rate_user_id).select('sum_notes, count_note').first
 
     new_count_note = user.count_note + 1
 
